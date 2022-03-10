@@ -90,7 +90,7 @@ void UnityTestRunner(unityfunction* setup,
         }
         else
         {
-            UNITY_OUTPUT_CHAR('.');
+            // UNITY_OUTPUT_CHAR('.');
         }
 
         Unity.NumberOfTests++;
