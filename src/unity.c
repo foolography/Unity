@@ -27,8 +27,8 @@ struct UNITY_STORAGE_T Unity;
 
 #ifdef UNITY_OUTPUT_COLOR
 const char PROGMEM UnityStrOk[]                            = "\033[42mOK\033[0m";
-const char PROGMEM UnityStrPass[]                          = "\033[42mPASS\033[0m";
-const char PROGMEM UnityStrFail[]                          = "\033[41mFAIL\033[0m";
+const char PROGMEM UnityStrPass[]                          = "\033[42mPASS\033[0m \xF0\x9F\x91\x8D\xF0\x9F\x8F\xBB";
+const char PROGMEM UnityStrFail[]                          = "\033[41mFAIL\033[0m \xF0\x9F\x98\xA9";
 const char PROGMEM UnityStrIgnore[]                        = "\033[43mIGNORE\033[0m";
 #else
 const char PROGMEM UnityStrOk[]                            = "OK";
@@ -63,7 +63,7 @@ const char PROGMEM UnityStrErrShorthand[]                  = "Unity Shorthand Su
 const char PROGMEM UnityStrErrFloat[]                      = "Unity Floating Point Disabled";
 const char PROGMEM UnityStrErrDouble[]                     = "Unity Double Precision Disabled";
 const char PROGMEM UnityStrErr64[]                         = "Unity 64-bit Support Disabled";
-static const char PROGMEM UnityStrBreaker[]                = "-----------------------";
+static const char PROGMEM UnityStrBreaker[]                = "-----------------------------------------";
 static const char PROGMEM UnityStrResultsTests[]           = " Tests ";
 static const char PROGMEM UnityStrResultsFailures[]        = " Failures ";
 static const char PROGMEM UnityStrResultsIgnored[]         = " Ignored ";
@@ -147,6 +147,20 @@ void UnityPrint(const char* string)
             pch++;
         }
     }
+}
+/*-----------------------------------------------*/
+void UnityPrintRaw(const char* string)
+{
+	const char* pch = string;
+
+	if (pch != NULL)
+	{
+		while (*pch)
+		{
+			UNITY_OUTPUT_CHAR(*pch);
+			pch++;
+		}
+	}
 }
 /*-----------------------------------------------*/
 void UnityPrintLen(const char* string, const UNITY_UINT32 length)
@@ -539,9 +553,10 @@ static void UnityTestResultsBegin(const char* file, const UNITY_LINE_TYPE line)
 /*-----------------------------------------------*/
 static void UnityTestResultsFailBegin(const UNITY_LINE_TYPE line)
 {
-    UnityTestResultsBegin(Unity.TestFile, line);
-    UnityPrint(UnityStrFail);
-    UNITY_OUTPUT_CHAR(':');
+	UNITY_OUTPUT_CHAR('\t');
+	UnityPrintRaw(UnityStrFail);
+	UNITY_OUTPUT_CHAR(' ');
+	UnityTestResultsBegin(Unity.TestFile, line);
 }
 
 /*-----------------------------------------------*/
@@ -554,7 +569,7 @@ void UnityConcludeTest(void)
     else if (!Unity.CurrentTestFailed)
     {
         UnityTestResultsBegin(Unity.TestFile, Unity.CurrentTestLineNumber);
-        UnityPrint(UnityStrPass);
+        UnityPrintRaw(UnityStrPass);
     }
     else
     {
@@ -1809,7 +1824,7 @@ void UnityFail(const char* msg, const UNITY_LINE_TYPE line)
     RETURN_IF_FAIL_OR_IGNORE;
 
     UnityTestResultsBegin(Unity.TestFile, line);
-    UnityPrint(UnityStrFail);
+    UnityPrintRaw(UnityStrFail);
     if (msg != NULL)
     {
         UNITY_OUTPUT_CHAR(':');
@@ -1924,18 +1939,22 @@ int UnityEnd(void)
     UNITY_PRINT_EOL();
     UnityPrintNumber((UNITY_INT)(Unity.NumberOfTests));
     UnityPrint(UnityStrResultsTests);
+	UnityPrint("| ");
     UnityPrintNumber((UNITY_INT)(Unity.TestFailures));
     UnityPrint(UnityStrResultsFailures);
-    UnityPrintNumber((UNITY_INT)(Unity.TestIgnores));
+	UnityPrint("| ");
+	UnityPrintNumber((UNITY_INT)(Unity.TestIgnores));
     UnityPrint(UnityStrResultsIgnored);
     UNITY_PRINT_EOL();
-    if (Unity.TestFailures == 0U)
+	UnityPrint(UnityStrBreaker);
+	UNITY_PRINT_EOL();
+	if (Unity.TestFailures == 0U)
     {
         UnityPrint(UnityStrOk);
     }
     else
     {
-        UnityPrint(UnityStrFail);
+        UnityPrintRaw(UnityStrFail);
 #ifdef UNITY_DIFFERENTIATE_FINAL_FAIL
         UNITY_OUTPUT_CHAR('E'); UNITY_OUTPUT_CHAR('D');
 #endif

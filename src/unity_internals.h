@@ -558,6 +558,7 @@ void UNITY_PRINT_TEST_CONTEXT(void);
  *-------------------------------------------------------*/
 
 void UnityPrint(const char* string);
+void UnityPrintRaw(const char* string);
 
 #ifdef UNITY_INCLUDE_PRINT_FORMATTED
 void UnityPrintF(const UNITY_LINE_TYPE line, const char* format, ...);

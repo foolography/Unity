@@ -80,7 +80,8 @@ void UnityTestRunner(unityfunction* setup,
         if (UnityFixture.Verbose)
         {
             UnityPrint(printableName);
-        #ifndef UNITY_REPEAT_TEST_NAME
+            UNITY_PRINT_EOL();
+#ifndef UNITY_REPEAT_TEST_NAME
             Unity.CurrentTestName = NULL;
         #endif
         }
@@ -292,8 +293,8 @@ void UnityConcludeFixtureTest(void)
     {
         if (UnityFixture.Verbose)
         {
-            UnityPrint(" ");
-            UnityPrint(UnityStrPass);
+            UNITY_OUTPUT_CHAR('\t');
+            UnityPrintRaw(UnityStrPass);
             UNITY_EXEC_TIME_STOP();
             UNITY_PRINT_EXEC_TIME();
             UNITY_PRINT_EOL();
