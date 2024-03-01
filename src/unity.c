@@ -26,10 +26,10 @@ void UNITY_OUTPUT_CHAR(int);
 struct UNITY_STORAGE_T Unity;
 
 #ifdef UNITY_OUTPUT_COLOR
-const char PROGMEM UnityStrOk[]                            = "\033[42mOK\033[0m";
-const char PROGMEM UnityStrPass[]                          = "\033[42mPASS\033[0m \xF0\x9F\x91\x8D\xF0\x9F\x8F\xBB";
-const char PROGMEM UnityStrFail[]                          = "\033[41mFAIL\033[0m \xF0\x9F\x98\xA9";
-const char PROGMEM UnityStrIgnore[]                        = "\033[43mIGNORE\033[0m";
+const char PROGMEM UnityStrOk[]                            = "\033[1;32mOK\033[0m";
+const char PROGMEM UnityStrPass[]                          = "\033[1;32mPASS\033[0m";
+const char PROGMEM UnityStrFail[]                          = "\033[1;31mFAIL\033[0m";
+const char PROGMEM UnityStrIgnore[]                        = "\033[1;33mIGNORE\033[0m";
 #else
 const char PROGMEM UnityStrOk[]                            = "OK";
 const char PROGMEM UnityStrPass[]                          = "PASS";
