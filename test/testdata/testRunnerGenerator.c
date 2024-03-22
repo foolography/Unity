@@ -1,3 +1,10 @@
+/* =========================================================================
+    Unity - A Test Framework for C
+    ThrowTheSwitch.org
+    Copyright (c) 2007-24 Mike Karlesky, Mark VanderVoord, & Greg Williams
+    SPDX-License-Identifier: MIT
+========================================================================= */
+
 /* This Test File Is Used To Verify Many Combinations Of Using the Generate Test Runner Script */
 
 #include <stdio.h>
@@ -18,9 +25,6 @@
    extest   - custom prefix only used during cexception
    suitetest- custom prefix for when we want to use custom suite setup/teardown
 */
-
-/* Support for Meta Test Rig */
-#define TEST_CASE(a)
 
 /* Include Passthroughs for Linking Tests */
 void putcharSpy(int c) { (void)putchar(c);}
@@ -165,6 +169,17 @@ TEST_CASE(17)
 void paratest_ShouldHandleParameterizedTestsThatFail(int Num)
 {
     TEST_ASSERT_EQUAL_MESSAGE(3, Num, "This call should fail");
+}
+
+int isArgumentOne(int i)
+{
+    return i == 1;
+}
+
+TEST_CASE(isArgumentOne)
+void paratest_WorksWithFunctionPointers(int function(int))
+{
+    TEST_ASSERT_TRUE_MESSAGE(function(1), "Function should return True");
 }
 
 #ifdef USE_CEXCEPTION

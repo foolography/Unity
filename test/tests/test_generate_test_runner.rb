@@ -1,8 +1,9 @@
-# ==========================================
-#   CMock Project - Automatic Mock Generation for C
-#   Copyright (c) 2007 Mike Karlesky, Mark VanderVoord, Greg Williams
-#   [Released under MIT License. Please refer to license.txt for details]
-# ==========================================
+# =========================================================================
+#   Unity - A Test Framework for C
+#   ThrowTheSwitch.org
+#   Copyright (c) 2007-24 Mike Karlesky, Mark VanderVoord, & Greg Williams
+#   SPDX-License-Identifier: MIT
+# =========================================================================
 
 require '../auto/generate_test_runner.rb'
 
@@ -151,6 +152,7 @@ RUNNER_TESTS = [
                     'paratest_ShouldHandleParameterizedTests\(5\)',
                     'paratest_ShouldHandleParameterizedTests2\(7\)',
                     'paratest_ShouldHandleNonParameterizedTestsWhenParameterizationValid',
+                    'paratest_WorksWithFunctionPointers\(isArgumentOne\)',
                   ],
       :to_fail => [ 'paratest_ShouldHandleParameterizedTestsThatFail\(17\)' ],
       :to_ignore => [ ],
@@ -168,6 +170,7 @@ RUNNER_TESTS = [
                     'paratest_ShouldHandleParameterizedTests\(5\)',
                     'paratest_ShouldHandleParameterizedTests2\(7\)',
                     'paratest_ShouldHandleNonParameterizedTestsWhenParameterizationValid',
+                    'paratest_WorksWithFunctionPointers\(isArgumentOne\)',
                   ],
       :to_fail => [ 'paratest_ShouldHandleParameterizedTestsThatFail\(17\)' ],
       :to_ignore => [ ],
@@ -188,6 +191,7 @@ RUNNER_TESTS = [
                     'paratest_ShouldHandleParameterizedTests\(5\)',
                     'paratest_ShouldHandleParameterizedTests2\(7\)',
                     'paratest_ShouldHandleNonParameterizedTestsWhenParameterizationValid',
+                    'paratest_WorksWithFunctionPointers\(isArgumentOne\)',
                   ],
       :to_fail => [ 'paratest_ShouldHandleParameterizedTestsThatFail\(17\)' ],
       :to_ignore => [ ],
@@ -1108,7 +1112,8 @@ RUNNER_TESTS = [
                   'paratest_ShouldHandleParameterizedTests\(5\)',
                   'paratest_ShouldHandleParameterizedTests2\(7\)',
                   'paratest_ShouldHandleNonParameterizedTestsWhenParameterizationValid',
-                  'paratest_ShouldHandleParameterizedTestsThatFail\(17\)'
+                  'paratest_ShouldHandleParameterizedTestsThatFail\(17\)',
+                  'paratest_WorksWithFunctionPointers\(isArgumentOne\)',
                ],
     }
   },
@@ -1154,7 +1159,41 @@ RUNNER_TESTS = [
       :to_pass => [ ],
       :to_fail => [ ],
       :to_ignore => [ ],
-      :text => [ "ERROR: Unknown Option z" ],
+      :text => [
+        "ERROR: Unknown Option z",
+        "Options:",
+        "-l        List all tests and exit",
+        "-f NAME   Filter to run only tests whose name includes NAME",
+        "-n NAME   \\(deprecated\\) alias of -f",
+        "-h        show this Help menu",
+        "-q        Quiet/decrease verbosity",
+        "-v        increase Verbosity",
+        "-x NAME   eXclude tests whose name includes NAME",
+      ],
+    }
+  },
+
+  { :name => 'ArgsHelp',
+    :testfile => 'testdata/testRunnerGenerator.c',
+    :testdefines => ['TEST', 'UNITY_USE_COMMAND_LINE_ARGS'],
+    :options => {
+      :cmdline_args => true,
+    },
+    :cmdline_args => "-h",
+    :expected => {
+      :to_pass => [ ],
+      :to_fail => [ ],
+      :to_ignore => [ ],
+      :text => [
+        "Options:",
+        "-l        List all tests and exit",
+        "-f NAME   Filter to run only tests whose name includes NAME",
+        "-n NAME   \\(deprecated\\) alias of -f",
+        "-h        show this Help menu",
+        "-q        Quiet/decrease verbosity",
+        "-v        increase Verbosity",
+        "-x NAME   eXclude tests whose name includes NAME",
+      ],
     }
   },
 ]

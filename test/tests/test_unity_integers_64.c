@@ -1,8 +1,9 @@
-/* ==========================================
-    Unity Project - A Test Framework for C
-    Copyright (c) 2007 Mike Karlesky, Mark VanderVoord, Greg Williams
-    [Released under MIT License. Please refer to license.txt for details]
-========================================== */
+/* =========================================================================
+    Unity - A Test Framework for C
+    ThrowTheSwitch.org
+    Copyright (c) 2007-24 Mike Karlesky, Mark VanderVoord, & Greg Williams
+    SPDX-License-Identifier: MIT
+========================================================================= */
 
 #include "unity.h"
 #define TEST_INSTANCES
@@ -61,7 +62,7 @@ void testInt64ArrayWithinDeltaAndMessage(void)
 #endif
 }
 
-void tesUInt64ArrayNotWithinDelta(void)
+void testInt64ArrayNotWithinDelta(void)
 {
 #ifndef UNITY_SUPPORT_64
     TEST_IGNORE();
@@ -649,6 +650,15 @@ void testHEX64sWithinDelta(void)
     TEST_ASSERT_HEX64_WITHIN(1, 0x7FFFFFFFFFFFFFFF,0x7FFFFFFFFFFFFFFE);
     TEST_ASSERT_HEX64_WITHIN(5, 5000, 4996);
     TEST_ASSERT_HEX64_WITHIN(5, 5000, 5005);
+#endif
+}
+
+void testHEX32sWithinDeltaShouldIgnoreSign(void)
+{
+#ifndef UNITY_SUPPORT_64
+    TEST_IGNORE();
+#else
+    TEST_ASSERT_HEX64_WITHIN(1, 0x7FFFFFFFFFFFFFFF,0x8000000000000000);
 #endif
 }
 

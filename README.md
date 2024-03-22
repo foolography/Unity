@@ -1,16 +1,18 @@
 # Unity Test ![CI][]
 
-__Copyright (c) 2007 - 2021 Unity Project by Mike Karlesky, Mark VanderVoord, and Greg Williams__
+__Copyright (c) 2007 - 2023 Unity Project by Mike Karlesky, Mark VanderVoord, and Greg Williams__
 
 Welcome to the Unity Test Project, one of the main projects of ThrowTheSwitch.org.
 Unity Test is a unit testing framework built for C, with a focus on working with embedded toolchains.
 
 This project is made to test code targetting microcontrollers big and small.
-The core project is a single C file and a pair of headers, allowing it to the added to your existing build setup without too much headache.
+The core project is a single C file and a pair of headers, allowing it to be added to your existing build setup without too much headache.
 You may use any compiler you wish, and may use most existing build systems including Make, CMake, etc.
 If you'd like to leave the hard work to us, you might be interested in Ceedling, a build tool also by ThrowTheSwitch.org.
 
 If you're new to Unity, we encourage you to tour the [getting started guide][].
+
+You can also find the [change log][] and [known issues][] in our documentation.
 
 ## Getting Started
 
@@ -54,7 +56,7 @@ The message is output stating why.
 
 Compare two integers for equality and display errors as signed integers.
 A cast will be performed to your natural integer size so often this can just be used.
-When you need to specify the exact size, like when comparing arrays, you can use a specific version:
+When you need to specify the exact size, you can use a specific version.
 
     TEST_ASSERT_EQUAL_UINT(expected, actual)
     TEST_ASSERT_EQUAL_UINT8(expected, actual)
@@ -72,7 +74,8 @@ Like INT, there are variants for different sizes also.
     TEST_ASSERT_EQUAL_HEX64(expected, actual)
 
 Compares two integers for equality and display errors as hexadecimal.
-Like the other integer comparisons, you can specify the size... here the size will also effect how many nibbles are shown (for example, `HEX16` will show 4 nibbles).
+Like the other integer comparisons, you can specify the size... 
+here the size will also effect how many nibbles are shown (for example, `HEX16` will show 4 nibbles).
 
     TEST_ASSERT_EQUAL(expected, actual)
 
@@ -142,13 +145,35 @@ The bit is specified 0-31 for a 32-bit integer.
 ### Numerical Assertions: Floats
 
     TEST_ASSERT_FLOAT_WITHIN(delta, expected, actual)
+    TEST_ASSERT_DOUBLE_WITHIN(delta, expected, actual)
 
 Asserts that the actual value is within plus or minus delta of the expected value.
+
+    TEST_ASSERT_FLOAT_NOT_WITHIN(delta, expected, actual)
+    TEST_ASSERT_DOUBLE_NOT_WITHIN(delta, expected, actual)
+
+Asserts that the actual value is NOT within plus or minus delta of the expected value.
 
     TEST_ASSERT_EQUAL_FLOAT(expected, actual)
     TEST_ASSERT_EQUAL_DOUBLE(expected, actual)
 
 Asserts that two floating point values are "equal" within a small % delta of the expected value.
+
+    TEST_ASSERT_NOT_EQUAL_FLOAT(expected, actual)
+    TEST_ASSERT_NOT_EQUAL_DOUBLE(expected, actual)
+
+Asserts that two floating point values are NOT "equal" within a small % delta of the expected value.
+
+    TEST_ASSERT_LESS_THAN_FLOAT(threshold, actual)
+    TEST_ASSERT_LESS_THAN_DOUBLE(threshold, actual)
+    TEST_ASSERT_GREATER_THAN_FLOAT(threshold, actual)
+    TEST_ASSERT_GREATER_THAN_DOUBLE(threshold, actual)
+
+Asserts that the actual value is less than or greater than the threshold.
+
+There are also `LESS_OR_EQUAL` and `GREATER_OR_EQUAL` variations.
+These obey the same rules for equality as do `TEST_ASSERT_EQUAL_FLOAT` and `TEST_ASSERT_EQUAL_DOUBLE`:
+If the two values are within a small % delta of the expected value, the assertion will pass.
 
 ### String Assertions
 
@@ -192,7 +217,8 @@ Fails if the pointer is equal to NULL
     TEST_ASSERT_EQUAL_MEMORY(expected, actual, len)
 
 Compare two blocks of memory.
-This is a good generic assertion for types that can't be coerced into acting like standard types... but since it's a memory compare, you have to be careful that your data types are packed.
+This is a good generic assertion for types that can't be coerced into acting like standard types... 
+but since it's a memory compare, you have to be careful that your data types are packed.
 
 ### \_MESSAGE
 
@@ -202,5 +228,7 @@ This is useful for specifying more information about the problem.
 
 [CI]: https://github.com/ThrowTheSwitch/Unity/workflows/CI/badge.svg
 [getting started guide]: docs/UnityGettingStartedGuide.md
+[change log]: docs/UnityChangeLog.md
+[known issues]: docs/UnityKnownIssues.md
 [docs]: docs/
 [UnityAssertionsReference.md]: docs/UnityAssertionsReference.md
